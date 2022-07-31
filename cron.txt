@@ -1,1 +1,1 @@
-*/15 * * * * cd /app/client/ && /usr/bin/python3 clitest.py 'http://localhost:3000/save' 'password'
+*/15 * * * * cd /app/client/ && /usr/bin/python3 clitest.py "http://localhost:3000/save" "password"
