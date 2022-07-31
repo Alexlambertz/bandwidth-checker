@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  bandwidth:
+    build: .
+    ports:
+      - "127.0.0.1:4013:3000"
+    environment:
+      PORT: 3000
+      SECRET: password
+    volumes:
+      - ${PWD}/data/db.json:/app/db.json
