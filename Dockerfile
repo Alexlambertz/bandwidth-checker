@@ -2,8 +2,8 @@ FROM node:lts-alpine3.16
 
 RUN apk add --no-cache busybox-initscripts openrc python3 git py3-pip
 
-#RUN git clone https://github.com/healeycodes/bandwidth-checker.git /app
-COPY ./src/ /app
+RUN git clone https://github.com/Alexlambertz/bandwidth-checker.git /app
+#COPY ./src/ /app
 
 WORKDIR /app
 
