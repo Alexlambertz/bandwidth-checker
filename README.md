@@ -20,6 +20,10 @@ I run my own setup on a Raspberry Pi connected to my router via ethernet.
 
 &nbsp;
 
+## Docker
+
+`docker-compose up -d`
+
 ## Install
 
 ### Client
