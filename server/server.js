@@ -14,7 +14,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-app.use(express.static("public"));
+app.use("/", express.static(__dirname + "/public"));
 
 app.set("port", process.env.PORT || 3000);
 
@@ -25,11 +25,15 @@ app.get("/", function(request, response) {
 // get bandwidth test results for graphing here
 app.get("/read", function(request, response) {
   const data = db.get("results").value();
-  const prepared = data.map(s => {
-    return { x: s.date, y: Number(s.speed).toFixed(3) };
+  const preparedDl = data.map(s => {
+    return { x: s.date, y: Number(s.dl).toFixed(3) };
   });
-  const trimmed = prepared.slice(Math.max(prepared.length - 48, 0));
-  response.send(trimmed); // send a slice of results
+  const preparedUl = data.map(s => {                                                                                                                                         return { x: s.date, y: Number(s.ul).toFixed(3) };                                                                                                                     
+  });
+  const trimmedDl = preparedDl.slice(Math.max(preparedDl.length - 48, 0));
+  const trimmedUl = preparedUl.slice(Math.max(preparedUl.length - 48, 0));
+  
+  response.send({dl: trimmedDl, ul: trimmedUl}); // send a slice of results
 });
 
 // send bandwidth test results here
@@ -40,7 +44,8 @@ app.post("/save", function(request, response) {
   }
   db.get("results")
     .push({
-      speed: request.body.speed,
+      dl: request.body.dl,
+      ul: request.body.ul,
       unit: request.body.units,
       date: request.body.date * 1000
     }) // correct to JS time

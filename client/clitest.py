@@ -10,9 +10,11 @@ def get_speed():
         :return: Download speed in Mbps
     """
     s = speedtest.Speedtest()
+    s.get_best_server()
+    s.upload()
     s.download()
     results_dict = s.results.dict()
-    return results_dict['download'] / 1048576  # convert bits to megabits
+    return (results_dict['download'] / 1048576), (results_dict['upload'] / 1048576)  # convert bits to megabits
 
 
 def send_speed(url, data, pw):
@@ -31,7 +33,7 @@ def send_speed(url, data, pw):
 if __name__ == '__main__':
     endpoint = sys.argv[1]  # endpoint to save results
     pw = sys.argv[2]  # password for endpoint
-    speed = get_speed()
+    dl, ul = get_speed()
     status = send_speed(
-        endpoint, {"speed": speed, "units": "Mbps", "date": time.time()}, pw)
+        endpoint, {"dl": dl, "ul": ul, "units": "Mbps", "date": time.time()}, pw)
     print(status)
